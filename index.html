@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>CURATOR ARENAE: Master of the Hypogeum</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
+    * {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'IM Fell English', Georgia, serif;
+      background-color: #0e0b0a;
+      color: #dfd3c3;
+      padding-top: max(8px, var(--safe-top));
+      padding-bottom: max(16px, var(--safe-bottom));
+      padding-left: max(8px, var(--safe-left));
+      padding-right: max(8px, var(--safe-right));
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      overflow-x: hidden;
+      word-break: break-word;
+    }
+
+    .font-roman { font-family: 'Cinzel', serif; }
+    .font-imperial { font-family: 'Cinzel Decorative', cursive; }
+
+    /* Imperial Roman Slate, Purple, and Weathered Papyrus */
+    .roman-panel {
+      background: linear-gradient(165deg, #1f1815 0%, #130f0e 100%);
+      border: 1px solid #4a362a;
+      box-shadow: inset 0 0 18px rgba(0,0,0,0.8), 0 4px 16px rgba(0,0,0,0.9);
+    }
+
+    .roman-inset {
+      background: #0d0a09;
+      border: 1px solid #2f221a;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.85);
+    }
+
+    .papyrus-card {
+      background-color: #d6c5ad;
+      background-image: radial-gradient(#bba78c 15%, transparent 16%);
+      background-size: 10px 10px;
+      color: #241913;
+      border: 2px solid #573f2e;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+    }
+
+    .scroll-ios {
+      -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
+    }
+
+    /* Custom Roman Sliders */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #281e17;
+      height: 8px;
+      border-radius: 4px;
+      border: 1px solid #573e2e;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: #d4af37;
+      cursor: pointer;
+      border: 2px solid #1c140e;
+      box-shadow: 0 0 8px #000;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0e0b0a; }
+    ::-webkit-scrollbar-thumb { background: #4a362a; border-radius: 2px; }
+
+    @keyframes pulseCrimson {
+      0%, 100% { border-color: #8a1c1c; }
+      50% { border-color: #e11d48; }
+    }
+    .pulse-blood { animation: pulseCrimson 2s infinite; }
+  </style>
+</head>
+<body class="flex flex-col text-sm selection:bg-rose-950 selection:text-amber-200">
+
+  <!-- ================= TOP HUD: IMPERIAL LEDGER & STATUS ================= -->
+  <header class="w-full max-w-6xl mx-auto roman-panel rounded-lg p-3 mb-2.5 border border-[#523c2d]">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+      
+      <!-- Insignia & Title -->
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <div class="w-12 h-12 rounded-full border-2 border-[#d4af37] bg-[#2a1320] flex items-center justify-center text-xl shadow-inner shrink-0">
+          🦅
+        </div>
+        <div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h1 class="text-base sm:text-lg font-bold font-roman tracking-wider text-[#d4af37] leading-tight">Curator Arenae</h1>
+            <span id="rank-badge" class="px-2 py-0.5 text-[10px] font-roman uppercase rounded bg-[#351025] text-amber-300 border border-[#832657] font-bold">Under-Sewer Laborer</span>
+          </div>
+          <p class="text-xs text-[#a99583] italic">Master of the Hypogeum Machinery & Spoliarium Flesh-Trade</p>
+        </div>
+      </div>
+
+      <!-- Roman Denarii, Crowd Ecstasy & Caesar Favor -->
+      <div class="flex items-center justify-between sm:justify-end gap-2 md:gap-4 w-full sm:w-auto flex-wrap text-xs font-roman">
+        <div class="flex items-center gap-1.5 roman-inset px-2.5 py-1.5 rounded">
+          <span class="text-[#8e7a69]">Munera Day:</span>
+          <span id="stat-day" class="text-amber-200 font-bold">1</span>
+        </div>
+
+        <div class="flex items-center gap-1.5 roman-inset px-2.5 py-1.5 rounded">
+          <span class="text-[#d4af37] font-bold">🪙 Sesterces:</span>
+          <span id="stat-sesterces" class="text-yellow-300 font-bold text-sm">650 𐆖</span>
+        </div>
+
+        <div class="flex items-center gap-1.5 roman-inset px-2.5 py-1.5 rounded">
+          <span class="text-rose-400 font-bold">Crowd:</span>
+          <div class="w-12 bg-[#1b120f] h-2 rounded overflow-hidden border border-[#482a20]">
+            <div id="stat-crowd-bar" class="bg-rose-600 h-full w-[45%] transition-all"></div>
+          </div>
+          <span id="stat-crowd-txt" class="text-rose-300 text-[10px]">45%</span>
+        </div>
+
+        <div class="flex items-center gap-1.5 roman-inset px-2.5 py-1.5 rounded">
+          <span class="text-purple-400 font-bold">Caesar:</span>
+          <div class="w-12 bg-[#170e1c] h-2 rounded overflow-hidden border border-[#522b5e]">
+            <div id="stat-caesar-bar" class="bg-purple-600 h-full w-[50%] transition-all"></div>
+          </div>
+          <span id="stat-caesar-txt" class="text-purple-300 text-[10px]">50%</span>
+        </div>
+      </div>
+
+      <!-- Global Controls -->
+      <div class="flex items-center gap-1.5 w-full sm:w-auto justify-end">
+        <button onclick="toggleAudio()" class="px-2 py-1 text-xs rounded border border-[#4a362a] bg-[#1a1310] text-[#a99583] hover:text-amber-300">
+          🔊 <span id="sound-state">ON</span>
+        </button>
+        <button onclick="advanceGamesCycle()" class="px-3 py-1 text-xs rounded border border-[#d4af37] bg-gradient-to-r from-[#3e1428] to-[#1c0f18] text-amber-200 font-roman font-bold hover:brightness-110">
+          Next Games ➔
+        </button>
+        <button onclick="toggleModal('god-modal')" class="px-2 py-1 text-xs rounded border border-purple-700 bg-purple-950/70 text-purple-200 font-roman font-bold">
+          ⚡ Jupiter Mode
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= TAB NAVIGATION ================= -->
+  <nav class="w-full max-w-6xl mx-auto flex gap-1 mb-2.5 overflow-x-auto pb-1 scroll-ios font-roman text-xs">
+    <button onclick="switchTab('arena')" id="tab-arena" class="tab-btn px-3 py-2 rounded-t roman-panel border-b-0 border-[#d4af37] text-amber-300 font-bold whitespace-nowrap">
+      ⚙️ Hypogeum Traps
+    </button>
+    <button onclick="switchTab('spoliarium')" id="tab-spoliarium" class="tab-btn px-3 py-2 rounded-t roman-panel border-b border-[#35251c] text-[#8e7a69] hover:text-amber-300 whitespace-nowrap">
+      🥩 Spoliarium Morgue (<span id="spoliarium-count-badge">0</span>)
+    </button>
+    <button onclick="switchTab('auction')" id="tab-auction" class="tab-btn px-3 py-2 rounded-t roman-panel border-b border-[#35251c] text-[#8e7a69] hover:text-amber-300 whitespace-nowrap">
+      🏛 Subura Auction Wall
+    </button>
+    <button onclick="switchTab('bargains')" id="tab-bargains" class="tab-btn px-3 py-2 rounded-t roman-panel border-b border-[#35251c] text-[#8e7a69] hover:text-amber-300 whitespace-nowrap">
+      ⛵ Ostia Docks Bargains <span class="text-[9px] bg-red-950 text-red-200 px-1 rounded border border-red-800">1-5%</span>
+    </button>
+    <button onclick="switchTab('workshop')" id="tab-workshop" class="tab-btn px-3 py-2 rounded-t roman-panel border-b border-[#35251c] text-[#8e7a69] hover:text-amber-300 whitespace-nowrap">
+      🛠 Apparatus Workshop
+    </button>
+    <button onclick="switchTab('stats')" id="tab-stats" class="tab-btn px-3 py-2 rounded-t roman-panel border-b border-[#35251c] text-[#8e7a69] hover:text-amber-300 whitespace-nowrap">
+      📜 Munera Chronicle & Stats
+    </button>
+    <button onclick="switchTab('manual')" id="tab-manual" class="tab-btn px-3 py-2 rounded-t roman-panel border-b border-[#35251c] text-[#8e7a69] hover:text-amber-300 whitespace-nowrap">
+      📖 Papyrus Manual
+    </button>
+  </nav>
+
+  <!-- ================= MAIN VIEW CONTAINERS ================= -->
+  <main class="w-full max-w-6xl mx-auto flex-1 flex flex-col min-h-0">
+
+    <!-- TAB 1: HYPOGEUM TRAP ARENA (CHOOSE HOW THEY DIE) -->
+    <section id="view-arena" class="tab-content flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 min-h-0">
+      
+      <!-- Condemned / Gladiator Intake Roster -->
+      <div class="lg:col-span-4 roman-panel rounded-lg p-3 flex flex-col justify-between max-h-[640px]">
+        <div>
+          <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#3b2a20]">
+            <h2 class="font-roman font-bold text-amber-200 text-sm flex items-center gap-1.5">
+              <span>📜</span> The Munera Roster
+            </h2>
+            <span id="roster-count" class="text-xs text-[#8e7a69]">3 Subjects</span>
+          </div>
+          <div id="roster-list" class="space-y-2 overflow-y-auto max-h-[380px] sm:max-h-[440px] pr-1 scroll-ios"></div>
+        </div>
+        <div class="pt-2 border-t border-[#3b2a20] text-[11px] text-[#8e7a69] italic">
+          Victim demise determines Spoliarium harvest. Drowning preserves pelts; portcullis crushes skulls; clean trapdoors preserve warm blood!
+        </div>
+      </div>
+
+      <!-- Cutaway Canvas & Mechanical Traps Controls -->
+      <div class="lg:col-span-8 roman-panel rounded-lg p-3 sm:p-4 flex flex-col justify-between">
+        
+        <!-- Subject Profile Banner -->
+        <div id="active-subject-brief" class="roman-inset p-2.5 rounded mb-2.5 border border-[#3b2a20]"></div>
+
+        <!-- Colosseum Cutaway Canvas (Arena Above, Hypogeum Below) -->
+        <div class="relative w-full h-44 sm:h-56 bg-[#0a0706] border border-[#483326] rounded overflow-hidden mb-2.5">
+          <canvas id="colosseum-canvas" class="w-full h-full block"></canvas>
+          <div id="canvas-status-banner" class="absolute top-2 left-3 text-[11px] font-roman text-amber-300 bg-black/70 px-2 py-0.5 rounded border border-[#5a3f30]">
+            ARENA FLOOR • SUBTERRANEAN HYPOGEUM
+          </div>
+        </div>
+
+        <!-- "CHOOSE HOW THEY DIE" Trap Selection Grid -->
+        <div class="roman-inset p-2.5 rounded mb-2.5 border border-[#3b2a20] space-y-2.5">
+          <label class="block text-xs font-roman text-amber-300 uppercase tracking-wider font-bold">Select Lethal Subterranean Trap:</label>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5">
+            <button onclick="setTrapType('lion')" id="trap-lion" class="trap-btn p-1.5 rounded border border-[#d4af37] bg-[#3a1a2b] text-amber-200 text-xs font-roman font-bold text-center">
+              🦁 Lion Cage<br><span class="text-[9px] text-amber-300">Pelt & Claws</span>
+            </button>
+            <button onclick="setTrapType('portcullis')" id="trap-portcullis" class="trap-btn p-1.5 rounded border border-[#35251c] bg-[#140f0d] text-[#8e7a69] text-xs font-roman text-center">
+              ⚔️ Spiked Gate<br><span class="text-[9px] text-rose-400">Impale / Cleave</span>
+            </button>
+            <button onclick="setTrapType('pitfall')" id="trap-pitfall" class="trap-btn p-1.5 rounded border border-[#35251c] bg-[#140f0d] text-[#8e7a69] text-xs font-roman text-center">
+              🕳 Hegmata Pit<br><span class="text-[9px] text-emerald-400">Pure Blood</span>
+            </button>
+            <button onclick="setTrapType('naumachia')" id="trap-naumachia" class="trap-btn p-1.5 rounded border border-[#35251c] bg-[#140f0d] text-[#8e7a69] text-xs font-roman text-center">
+              🐊 Nile Crocs<br><span class="text-[9px] text-cyan-400">Sluice Drown</span>
+            </button>
+            <button onclick="setTrapType('scythe')" id="trap-scythe" class="trap-btn p-1.5 rounded border border-[#35251c] bg-[#140f0d] text-[#8e7a69] text-xs font-roman text-center">
+              🔄 Scythed Post<br><span class="text-[9px] text-yellow-300">Dismember</span>
+            </button>
+          </div>
+
+          <!-- Real-Time Sliders: Capstan Winch Speed & Counterweight Mass -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span id="slider-1-label" class="text-[#bfa588] font-roman">Capstan Winch Rate:</span>
+                <span id="val-param-1" class="text-amber-300 font-bold">45 rpm</span>
+              </div>
+              <input type="range" id="slider-param-1" min="10" max="90" value="45" class="w-full" oninput="updateTrapCalculations()">
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span id="slider-2-label" class="text-[#bfa588] font-roman">Lead Counterweight:</span>
+                <span id="val-param-2" class="text-amber-300 font-bold">520 Roman Lbs</span>
+              </div>
+              <input type="range" id="slider-param-2" min="150" max="950" value="520" class="w-full" oninput="updateTrapCalculations()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry & Trigger Lever -->
+        <div class="grid grid-cols-3 gap-2 text-center text-xs roman-inset p-2 rounded border border-[#302117] mb-2.5">
+          <div>
+            <span class="block text-[#7b6756] uppercase text-[9px]">Delivered Kinetic Force</span>
+            <span id="tele-force" class="font-bold text-amber-300">1,820 ft-lbs</span>
+          </div>
+          <div>
+            <span class="block text-[#7b6756] uppercase text-[9px]">Trap Release Delay</span>
+            <span id="tele-latency" class="font-bold text-zinc-300">320 ms</span>
+          </div>
+          <div>
+            <span class="block text-[#7b6756] uppercase text-[9px]">Lethal Trajectory Alignment</span>
+            <span id="tele-status" class="font-bold text-emerald-400">OPTIMAL FATALITY</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between gap-2">
+          <p class="text-xs text-[#8e7a69] italic truncate">
+            Machinery: <span id="apparatus-label" class="text-amber-300 font-bold">Tensioned Bronze Capstan & Pulley</span>
+          </p>
+          <button id="btn-trigger-trap" onclick="executeTrapSequence()" class="px-5 py-2.5 rounded bg-gradient-to-r from-[#591024] via-[#7d1927] to-[#3a0d1b] border border-red-700 hover:border-amber-400 text-amber-100 font-roman font-bold tracking-wider text-xs sm:text-sm shadow-xl active:scale-95 transition shrink-0">
+            ⚡ PULL HYPOGEUM LEVER
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 2: SPOLIARIUM MORGUE (ANATOMICAL HARVEST) -->
+    <section id="view-spoliarium" class="tab-content hidden flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3">
+      
+      <!-- Cadavers on Slabs -->
+      <div class="lg:col-span-4 roman-panel rounded-lg p-3 flex flex-col justify-between max-h-[620px]">
+        <div>
+          <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#3b2a20]">
+            <h2 class="font-roman font-bold text-amber-200 text-sm">🥩 Spoliarium Mortuary Slabs</h2>
+            <span id="corpse-count-label" class="text-xs text-[#8e7a69]">0 Bodies</span>
+          </div>
+          <p class="text-xs text-[#8e7a69] mb-2">Chute deposits from the arena sand. Strip before Charon's mallets strike.</p>
+          <div id="spoliarium-corpse-list" class="space-y-2 overflow-y-auto max-h-[400px] scroll-ios pr-1"></div>
+        </div>
+      </div>
+
+      <!-- Dissection Slab & Storage Jars -->
+      <div class="lg:col-span-8 roman-panel rounded-lg p-3 sm:p-4 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-2.5 mb-3 border-b border-[#3b2a20]">
+            <div>
+              <h3 id="slab-subject-name" class="font-roman text-base sm:text-lg text-amber-300 font-bold">No Cadaver on the Marble</h3>
+              <p id="slab-subject-sub" class="text-xs text-[#8e7a69]">Select a fallen gladiator or beast from the chute list to harvest.</p>
+            </div>
+            <span id="slab-purity-label" class="px-2.5 py-1 text-xs rounded bg-[#1f141b] text-amber-300 border border-[#48283a]">Purity: --</span>
+          </div>
+
+          <!-- Harvest Cards Grid -->
+          <div id="harvest-card-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 mb-3"></div>
+        </div>
+
+        <!-- Extracted Storage Vault -->
+        <div class="roman-inset p-3 rounded border border-[#3b2a20]">
+          <div class="flex justify-between items-center mb-1.5">
+            <h4 class="font-roman text-xs uppercase tracking-wider text-amber-400">Vault Amphorae, Jars & Relic Chest</h4>
+            <span class="text-[11px] text-[#8e7a69]">Prepared for the Subura Auction Block</span>
+          </div>
+          <div id="vault-inventory-container" class="flex flex-wrap gap-2 max-h-32 overflow-y-auto scroll-ios"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 3: SUBURA AUCTION WALL (SELLING) -->
+    <section id="view-auction" class="tab-content hidden flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3">
+      
+      <!-- Lots in Storage -->
+      <div class="lg:col-span-5 roman-panel rounded-lg p-3 flex flex-col justify-between max-h-[640px]">
+        <div>
+          <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#3b2a20]">
+            <div>
+              <h2 class="font-roman font-bold text-amber-200 text-sm">Subura Auction Wall</h2>
+              <p class="text-xs text-[#8e7a69]">Mount warm blood, strigilmentum sweat, and death masks.</p>
+            </div>
+            <span id="auction-lots-count" class="text-xs text-[#8e7a69]">0 Lots</span>
+          </div>
+
+          <label class="block text-xs font-roman text-[#bfa588] mb-1.5 uppercase">Select Vault Lot for Sale:</label>
+          <div id="auction-inventory-list" class="space-y-1.5 max-h-60 overflow-y-auto scroll-ios pr-1"></div>
+        </div>
+
+        <!-- Reserve Setup -->
+        <div class="roman-inset p-2.5 rounded border border-[#3b2a20] mt-2">
+          <div class="flex justify-between items-center mb-1.5 text-xs">
+            <span class="text-[#bfa588]">Opening Reserve Price:</span>
+            <span id="auction-reserve-display" class="font-bold text-yellow-300">180 𐆖</span>
+          </div>
+          <input type="range" id="auction-reserve-slider" min="30" max="1200" step="10" value="180" class="w-full mb-2" oninput="updateAuctionReservePrice(this.value)">
+          <button id="btn-open-auction" onclick="startSuburaBidding()" class="w-full py-2 bg-gradient-to-r from-[#44122d] to-[#1c0914] border border-[#d4af37] text-amber-200 font-roman text-xs font-bold rounded hover:brightness-110">
+            OPEN BIDDING CIRCLE
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Bidding Arena -->
+      <div class="lg:col-span-7 roman-panel rounded-lg p-3 sm:p-4 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-2 mb-2 border-b border-[#3b2a20]">
+            <h3 class="font-roman font-bold text-amber-200 flex items-center gap-1.5 text-sm">
+              <span>🏺</span> The Subura Bidding Parlor
+            </h3>
+            <span id="auction-state-tag" class="text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-400 font-roman">PARLOR DORMANT</span>
+          </div>
+
+          <!-- Active Lot Frame -->
+          <div id="active-bidding-banner" class="roman-inset p-3 rounded border border-[#3b2a20] mb-2.5">
+            <p class="text-xs text-[#8e7a69] italic text-center py-3">No commodity on the marble block. Select a harvested lot to open bids.</p>
+          </div>
+
+          <!-- Bidders Banter -->
+          <div class="roman-inset p-2.5 rounded border border-[#2b1b13]">
+            <h4 class="font-roman text-[11px] uppercase tracking-wider text-[#bfa588] mb-1.5">Patrician & Physician Clamour</h4>
+            <div id="auction-dialogue-feed" class="h-40 overflow-y-auto scroll-ios space-y-1 text-xs pr-1">
+              <p class="text-[#654e3d] italic">Present: Lady Lucilla (Cosmetics), Medicus Galenus (Medicine), Senator Lucius (Curios), and Lanista Vatia (Ludus).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charon Scepter Gavel Strike Button -->
+        <div class="flex items-center justify-between pt-2.5 border-t border-[#3b2a20] mt-2">
+          <div class="text-[11px] text-[#8e7a69]">
+            Subura notoriety increases Praetorian Heat by +3%.
+          </div>
+          <button id="btn-strike-gavel" onclick="finalizeAuctionSale()" disabled class="px-4 py-2 bg-gradient-to-r from-red-950 to-amber-950 border border-amber-600 text-amber-200 font-roman text-xs font-bold rounded hover:brightness-110 disabled:opacity-40 disabled:cursor-not-allowed">
+            ⚡ STRIKE CHARON SCEPTER (SOLD)
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 4: OSTIA DOCKS BARGAINS (1-5% DEEP ARBITRAGE) -->
+    <section id="view-bargains" class="tab-content hidden flex-1 roman-panel rounded-lg p-3 sm:p-4 flex flex-col justify-between">
+      <div>
+        <div class="flex flex-wrap items-center justify-between pb-2.5 mb-3 border-b border-[#3b2a20] gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="font-roman font-bold text-base sm:text-lg text-rose-300">Midnight Ostia Docks Arbitrage</h2>
+              <span class="bg-red-950 text-red-200 text-[10px] px-2 py-0.5 rounded border border-red-700 font-bold">1% – 5% RATE</span>
+            </div>
+            <p class="text-xs text-[#8e7a69]">Overseas galleys dumping shipwreck salvage and contraband gladiator curios at 1%–5% of imperial market appraisal!</p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-[#8e7a69]">Next Galley Arrival: <span id="bargain-timer-label" class="text-amber-300 font-bold">3 Munera</span></span>
+            <button onclick="bribeHarborMaster()" class="px-2.5 py-1 rounded border border-amber-700 bg-[#351a28] text-amber-200 text-xs font-roman font-bold hover:brightness-110">
+              Bribe Port Prefect (30 𐆖)
+            </button>
+          </div>
+        </div>
+
+        <div id="bargains-lot-grid" class="grid grid-cols-1 md:grid-cols-3 gap-3 overflow-y-auto max-h-[460px] scroll-ios"></div>
+      </div>
+
+      <div class="roman-inset p-2.5 rounded border border-[#3b2a20] mt-3 flex justify-between items-center text-xs text-[#8e7a69]">
+        <span>⚡ <em>Flesh-Trade Law:</em> Acquired contraband stores directly in your Vault. Flip on the Subura Auction Wall for 20x to 50x returns.</span>
+        <span class="text-yellow-400 font-roman">Ostia Smugglers</span>
+      </div>
+    </section>
+
+    <!-- TAB 5: APPARATUS WORKSHOP & UPGRADES -->
+    <section id="view-workshop" class="tab-content hidden flex-1 grid grid-cols-1 lg:grid-cols-2 gap-3">
+      
+      <!-- Subterranean Capstans & Traps -->
+      <div class="roman-panel rounded-lg p-3 sm:p-4 flex flex-col justify-between">
+        <div>
+          <h2 class="font-roman font-bold text-amber-200 mb-1 text-sm">Hypogeum Engineering Apparatus</h2>
+          <p class="text-xs text-[#8e7a69] mb-3">Mechanical improvements to capstans, sluices, and bronze trapdoors.</p>
+          <div id="workshop-machinery-list" class="space-y-2"></div>
+        </div>
+        <p class="text-[11px] text-[#654e3d] italic mt-2">Upgraded gears expand acceptable kinetic calculation tolerances.</p>
+      </div>
+
+      <!-- Spoliarium Surgical Tools -->
+      <div class="roman-panel rounded-lg p-3 sm:p-4 flex flex-col justify-between">
+        <div>
+          <h2 class="font-roman font-bold text-amber-200 mb-1 text-sm">Spoliarium Anatomical Implements</h2>
+          <p class="text-xs text-[#8e7a69] mb-3">Surgical instruments for scraping sweat, draining blood, and pulling teeth.</p>
+          <div id="workshop-tools-list" class="space-y-2"></div>
+        </div>
+        <p class="text-[11px] text-[#654e3d] italic mt-2">Tools directly upgrade harvest yield volumes and purity multipliers.</p>
+      </div>
+
+    </section>
+
+    <!-- TAB 6: CHRONICLE & CAREER STATS -->
+    <section id="view-stats" class="tab-content hidden flex-1 roman-panel rounded-lg p-3 sm:p-4 flex flex-col justify-between scroll-ios">
+      <div>
+        <div class="flex items-center justify-between pb-2.5 mb-3 border-b border-[#3b2a20]">
+          <div>
+            <h2 class="font-roman font-bold text-base sm:text-lg text-amber-200">The Curator's Imperial Chronicle</h2>
+            <p class="text-xs text-[#8e7a69]">Certified records of subterranean spectacles, mortuary yields, and rank.</p>
+          </div>
+          <div class="text-right">
+            <span class="text-xs text-[#8e7a69]">Curator Title:</span>
+            <p id="stats-title-label" class="font-roman font-bold text-amber-300">Under-Sewer Laborer</p>
+          </div>
+        </div>
+
+        <!-- 8-Metric Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+          <div class="roman-inset p-2.5 rounded border border-[#2b1b13]">
+            <span class="text-[10px] font-roman text-[#8e7a69] block uppercase">Spectacles Staged</span>
+            <span id="st-spectacles" class="text-lg font-bold text-amber-200">0</span>
+          </div>
+          <div class="roman-inset p-2.5 rounded border border-[#2b1b13]">
+            <span class="text-[10px] font-roman text-[#8e7a69] block uppercase">Clean Impalements</span>
+            <span id="st-impalements" class="text-lg font-bold text-emerald-400">0</span>
+          </div>
+          <div class="roman-inset p-2.5 rounded border border-[#2b1b13]">
+            <span class="text-[10px] font-roman text-[#8e7a69] block uppercase">Beast Severances</span>
+            <span id="st-severances" class="text-lg font-bold text-rose-400">0</span>
+          </div>
+          <div class="roman-inset p-2.5 rounded border border-[#2b1b13]">
+            <span class="text-[10px] font-roman text-[#8e7a69] block uppercase">Death Masks Carved</span>
+            <span id="st-masks" class="text-lg font-bold text-yellow-300">0</span>
+          </div>
+
+          <div class="roman-inset p-2.5 rounded border border-[#2b1b13]">
+            <span class="text-[10px] font-roman text-[#8e7a69] block uppercase">Arterial Blood Amphorae</span>
+            <span id="st-blood" class="text-lg font-bold text-rose-300">0</span>
+          </div>
+          <div class="roman-inset p-2.5 rounded border border-[#2b1b13]">
+            <span class="text-[10px] font-roman text-[#8e7a69] block uppercase">Gladiator Sweat Vials</span>
+            <span id="st-sweat" class="text-lg font-bold text-amber-300">0</span>
+          </div>
+          <div class="roman-inset p-2.5 rounded border border-[#2b1b13]">
+            <span class="text-[10px] font-roman text-[#8e7a69] block uppercase">Arbitrage Profit</span>
+            <span id="st-arbitrage" class="text-lg font-bold text-emerald-300">0 𐆖</span>
+          </div>
+          <div class="roman-inset p-2.5 rounded border border-[#2b1b13]">
+            <span class="text-[10px] font-roman text-[#8e7a69] block uppercase">Lifetime Sesterces</span>
+            <span id="st-lifetime" class="text-lg font-bold text-yellow-300">650 𐆖</span>
+          </div>
+        </div>
+
+        <!-- Imperial Titles Progression Hierarchy -->
+        <div class="roman-inset p-3 rounded border border-[#3b2a20]">
+          <h3 class="font-roman text-xs uppercase tracking-wider text-amber-400 mb-2">Imperial Hypogeum Hierarchy</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-xs">
+            <div id="rank-step-1" class="p-2 rounded border border-amber-600 bg-[#25150a]">
+              <p class="font-roman font-bold text-amber-200">1. Under-Sewer Laborer</p>
+              <p class="text-[10px] text-[#8e7a69]">Greasing capstan winches</p>
+            </div>
+            <div id="rank-step-2" class="p-2 rounded border border-[#2b1b13] opacity-50">
+              <p class="font-roman font-bold text-zinc-300">2. Hypogeum Trap Master</p>
+              <p class="text-[10px] text-[#8e7a69]">Requires 4 Clean Impalements</p>
+            </div>
+            <div id="rank-step-3" class="p-2 rounded border border-[#2b1b13] opacity-50">
+              <p class="font-roman font-bold text-zinc-300">3. Spoliarium Flesh-Factor</p>
+              <p class="text-[10px] text-[#8e7a69]">Requires 2,500 Lifetime Sesterces</p>
+            </div>
+            <div id="rank-step-4" class="p-2 rounded border border-[#2b1b13] opacity-50">
+              <p class="font-roman font-bold text-zinc-300">4. Supreme Curator of the Colosseum</p>
+              <p class="text-[10px] text-[#8e7a69]">Requires 12 Fatalities & 7,000 𐆖</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-3 pt-2 border-t border-[#3b2a20] text-xs text-[#8e7a69] flex justify-between items-center">
+        <span>Verified by Imperial Edict.</span>
+        <button onclick="resetStatsChronicle()" class="text-red-400 hover:underline">Reset Chronicle</button>
+      </div>
+    </section>
+
+    <!-- TAB 7: FIELD PAPYRUS MANUAL -->
+    <section id="view-manual" class="tab-content hidden flex-1 roman-panel rounded-lg p-3 sm:p-5 scroll-ios max-h-[640px]">
+      <div class="border-b border-[#3b2a20] pb-2.5 mb-3">
+        <h2 class="font-roman font-bold text-lg text-amber-200 flex items-center gap-2">
+          <span>📖</span> The Curator's Subterranean Codex
+        </h2>
+        <p class="text-xs text-[#8e7a69]">Mechanical engineering, Plinian medicine, cosmetic scraping, and Ostia trade.</p>
+      </div>
+
+      <div class="space-y-4 text-xs sm:text-sm leading-relaxed">
+        <div class="roman-inset p-3 rounded border border-[#2b1b13]">
+          <h3 class="font-roman font-bold text-amber-300 text-sm mb-1.5">I. Choose How They Die: Mechanics & Harvest Integrity</h3>
+          <p class="text-[#cfc4b4] mb-2">
+            The mechanism of execution directly dictates what drops into the Spoliarium morgue:
+          </p>
+          <ul class="list-disc list-inside space-y-1 text-[#a99583]">
+            <li><strong>Spiked Portcullis:</strong> Kinetic fall delivers high puncturing trauma. Leaves facial masks 100% pristine if calibrated to chest height.</li>
+            <li><strong>Numidian Lion Cage:</strong> Starved beast release shreds the victim. Leaves claws and pelts, but mangles blood and soft tissue.</li>
+            <li><strong>Hegmata Pitfall:</strong> Counterbalanced floor drop into soft sand trenches. Leaves vascular system intact for instant arterial tapping.</li>
+            <li><strong>Naumachia Sluice Gate:</strong> Aqueduct water drowns the victim with crocs. Preserves unbruised gladiator dermis and lion skins.</li>
+            <li><strong>Scythed Post:</strong> Torsion spring rotation severs limbs. Yields dismembered trophies and teeth.</li>
+          </ul>
+        </div>
+
+        <div class="roman-inset p-3 rounded border border-[#2b1b13]">
+          <h3 class="font-roman font-bold text-amber-300 text-sm mb-1.5">II. Historical Roman Commodities & Plinian Medicine</h3>
+          <p class="text-[#cfc4b4] mb-2">
+            Roman medical and cosmetic texts record extraordinary values for gladiator byproducts:
+          </p>
+          <ul class="list-disc list-inside space-y-1 text-[#a99583]">
+            <li><strong>Warm Arterial Blood:</strong> Pliny the Elder and Celsus documented that physicians prescribed warm gladiator blood straight from a severed neck to cure the <em>comitialis morbus</em> ("falling sickness" / epilepsy). Must be bottled before coagulating.</li>
+            <li><strong>Gladiator Sweat (*Strigilmentum*):</strong> Scraped from muscle with iron strigils. Sold to Roman matrons as an elite skin ointment and aphrodisiac.</li>
+            <li><strong>Arena Sand (*Harena*):</strong> Blood-drenched sand scooped from the kill perimeter, carried by chariot race gamblers as good luck charms.</li>
+          </ul>
+        </div>
+
+        <div class="roman-inset p-3 rounded border border-[#2b1b13]">
+          <h3 class="font-roman font-bold text-amber-300 text-sm mb-1.5">III. The 1%–5% Ostia Docks Arbitrage</h3>
+          <p class="text-[#cfc4b4] mb-2">
+            Foreign merchant galleys dock at Ostia with damaged or confiscated circus cargo. Fences unload them at 1% to 5% of their true value.
+          </p>
+          <p class="text-[#a99583]">
+            Purchase a 950 𐆖 casket of Gaulish gold teeth for 28 𐆖, carry it to the Subura auction ring, and let Lady Lucilla and Medicus Galenus bid it to its full valuation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= POST-MORTEM SPECTACLE MODAL (IOS FIT) ================= -->
+  <div id="post-fatality-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center p-3 z-50 hidden">
+    <div class="roman-panel border-2 border-amber-600 rounded-lg max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl">
+      
+      <div class="p-3 border-b border-[#4a362a] flex items-center justify-between bg-[#201018] rounded-t-lg shrink-0">
+        <h3 id="pf-modal-title" class="font-roman font-bold text-amber-300 text-sm sm:text-base flex items-center gap-1.5">
+          <span>⚔️</span> Munera Execution Report
+        </h3>
+        <span id="pf-badge" class="px-2 py-0.5 rounded text-[10px] font-roman uppercase font-bold bg-emerald-950 text-emerald-300 border border-emerald-700">FATALITY COMPLETE</span>
+      </div>
+
+      <div class="p-3 sm:p-4 scroll-ios flex-1 space-y-3 text-xs sm:text-sm">
+        <div class="papyrus-card p-3 rounded text-center">
+          <p class="font-roman font-bold text-base uppercase text-stone-900" id="pf-subject-name">Condemned Gaul</p>
+          <p class="font-roman text-xs text-stone-800" id="pf-subject-crime">Rebel Legionary & Outlaw</p>
+          <div class="my-1.5 border-t border-b border-[#573f2e] py-1 font-roman font-bold text-red-900 text-sm" id="pf-imperial-purse">
+            IMPERIAL PURSE: 260 𐆖
+          </div>
+          <p class="italic text-[11px] text-stone-700" id="pf-narrative-lead">Dispatched via Hypogeum Trapdoor.</p>
+        </div>
+
+        <div class="roman-inset p-3 rounded border border-[#2b1b13] space-y-1.5">
+          <h4 class="font-roman text-amber-400 text-xs uppercase">Anatomical & Kinetic Trauma Analysis</h4>
+          <p id="pf-narrative-text" class="text-[#cfc4b4] leading-relaxed text-xs">Full trauma description.</p>
+          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-[#2b1b13] text-[11px] text-[#8e7a69]">
+            <div>Trap Mechanism: <span id="pf-mech-type" class="text-amber-200 font-bold">Portcullis</span></div>
+            <div>Delivered Kinetic Force: <span id="pf-kinetic" class="text-amber-200 font-bold">1,850 ft-lbs</span></div>
+            <div>Spoliarium Purity: <span id="pf-purity" class="text-emerald-400 font-bold">96%</span></div>
+            <div>Crowd Ecstasy: <span id="pf-crowd" class="text-rose-400 font-bold">+12%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-3 border-t border-[#4a362a] bg-[#140e0b] rounded-b-lg flex flex-col sm:flex-row gap-2 justify-end shrink-0">
+        <button onclick="transferToSpoliarium()" class="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-[#4d142d] to-[#1c0812] border border-[#d4af37] text-amber-200 font-roman text-xs font-bold rounded hover:brightness-110 text-center">
+          🥩 Drop to Spoliarium Morgue
+        </button>
+        <button onclick="closePostFatalityModal()" class="w-full sm:w-auto px-3 py-2 bg-[#251b15] border border-[#4a362a] text-[#cfc4b4] font-roman text-xs rounded hover:text-white text-center">
+          Close Report
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= MODAL: JUPITER / GOD MODE CONSOLE ================= -->
+  <div id="god-modal" class="fixed inset-0 bg-black/85 flex items-center justify-center p-3 z-50 hidden">
+    <div class="roman-panel border-2 border-purple-800 rounded-lg max-w-md w-full p-4 space-y-3 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-purple-900 pb-2">
+        <h3 class="font-roman font-bold text-purple-300 text-sm flex items-center gap-1.5">
+          ⚡ Jupiter / God Console (Curator Imperium)
+        </h3>
+        <button onclick="toggleModal('god-modal')" class="text-zinc-400 hover:text-white font-mono">✕</button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 text-xs font-roman">
+        <button onclick="cheatAddSesterces(5000)" class="p-2.5 rounded bg-purple-950/70 border border-purple-700 text-purple-200 hover:bg-purple-900">
+          +5,000 Sesterces
+        </button>
+        <button onclick="cheatMaxCaesarFavor()" class="p-2.5 rounded bg-purple-950/70 border border-purple-700 text-purple-200 hover:bg-purple-900">
+          Max Caesar Favor (100%)
+        </button>
+        <button onclick="cheatAutoCalibrate()" class="p-2.5 rounded bg-purple-950/70 border border-purple-700 text-purple-200 hover:bg-purple-900">
+          🎯 Auto-Calibrate Trap
+        </button>
+        <button onclick="cheatUnlockAllWorkshop()" class="p-2.5 rounded bg-purple-950/70 border border-purple-700 text-purple-200 hover:bg-purple-900">
+          Unlock All Implements
+        </button>
+        <button onclick="cheatSpawnChampion()" class="col-span-2 p-2.5 rounded bg-purple-950/70 border border-purple-700 text-purple-200 hover:bg-purple-900">
+          Spawn Champion: 3,500 𐆖 Primus Palus Gladiator
+        </button>
+        <button onclick="cheatRestockBargains()" class="col-span-2 p-2.5 rounded bg-purple-950/70 border border-purple-700 text-purple-200 hover:bg-purple-900">
+          Replenish Ostia Bargains
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-4 right-4 max-w-xs roman-panel border border-[#d4af37] px-3 py-2.5 rounded shadow-2xl transition-opacity duration-300 opacity-0 pointer-events-none z-50 text-xs">
+    <p id="toast-title" class="font-roman font-bold text-amber-300"></p>
+    <p id="toast-msg" class="text-[#cfc4b4] mt-0.5"></p>
+  </div>
+
+  <!-- ================= JAVASCRIPT GAME ENGINE ================= -->
+  <script>
+    /* --------------------------------------------------------------------------
+       1. SYNTHESIZED WEB AUDIO ENGINE (Arena Salpinx, Roars, Winches, Chains)
+       -------------------------------------------------------------------------- */
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioClass) audioCtx = new AudioClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function toggleAudio() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('sound-state').textContent = soundEnabled ? 'ON' : 'OFF';
+      showToast('Imperial Sound', soundEnabled ? 'Sound enabled.' : 'Sound muted.');
+    }
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      initAudio();
+      if (!audioCtx) return;
+
+      const t = audioCtx.currentTime;
+
+      if (type === 'salpinx') {
+        // Roman Bronze Arena Horn (Salpinx fanfare)
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, t);
+        osc.frequency.setValueAtTime(330, t + 0.15);
+        osc.frequency.setValueAtTime(440, t + 0.35);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.68);
+      } else if (type === 'winch') {
+        // Heavy Bronze Capstan Ratchet & Chain
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(80, t);
+        osc.frequency.setValueAtTime(240, t + 0.04);
+        gain.gain.setValueAtTime(0.35, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.13);
+      } else if (type === 'clang') {
+        // Bronze Portcullis Spikes / Scythe Cleave
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(620, t);
+        osc.frequency.exponentialRampToValueAtTime(80, t + 0.28);
+        gain.gain.setValueAtTime(0.8, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.32);
+      } else if (type === 'roar') {
+        // Numidian Lion guttural roar / Crocodile thrash
+        const bufferSize = audioCtx.sampleRate * 0.5;
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (audioCtx.sampleRate * 0.12));
+        }
+        const noise = audioCtx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(320, t);
+        filter.frequency.exponentialRampToValueAtTime(60, t + 0.45);
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.9, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.48);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        noise.start(t);
+      } else if (type === 'coin') {
+        // Roman Sesterces Clink
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(2100, t);
+        osc.frequency.exponentialRampToValueAtTime(2800, t + 0.1);
+        gain.gain.setValueAtTime(0.25, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.26);
+      } else if (type === 'gavel') {
+        // Charon Bronze Scepter strike
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(420, t);
+        osc.frequency.exponentialRampToValueAtTime(90, t + 0.16);
+        gain.gain.setValueAtTime(0.95, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.26);
+      } else if (type === 'scrape') {
+        // Iron Strigil scraping sweat & oil
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(750, t);
+        osc.frequency.exponentialRampToValueAtTime(450, t + 0.18);
+        gain.gain.setValueAtTime(0.2, t);
+        gain.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 0.22);
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       2. DATABASE & PROCEDURAL GLADIATOR / CONDEMNED ENGINE
+       -------------------------------------------------------------------------- */
+    const ROMAN_TITLES = [
+      'Under-Sewer Laborer',
+      'Hypogeum Trap Master',
+      'Spoliarium Flesh-Factor',
+      'Supreme Curator of the Colosseum'
+    ];
+
+    const SUBJECT_NAMES = ['Aulus', 'Marcus', 'Decimus', 'Spartakos', 'Thrax', 'Krixus', 'Varro', 'Barca', 'Brennus', 'Crixus'];
+    const SUBJECT_ORIGINS = ['of Gaul', 'the Thracian', 'of Numidia', 'the Germanic Rebel', 'of Alexandria', 'the Deserter', 'the Patrician Traitor'];
+
+    const SUBJECT_ARCHETYPES = [
+      { role: 'Rebel Murmillo Gladiator', weight: 195, reflexMs: 310, purse: 280, crime: 'Armed mutiny in Capua ludus barracks.', goldTeeth: true, sweatTier: 'Elite' },
+      { role: 'Gaulish Chieftain Captive', weight: 215, reflexMs: 380, purse: 220, crime: 'Pitched battle against Legio X at the Rhine.', goldTeeth: true, sweatTier: 'Coarse' },
+      { role: 'Rogue Retiarius Champion', weight: 175, reflexMs: 270, purse: 390, crime: 'Slew imperial praetor during private banquet games.', goldTeeth: false, sweatTier: 'Champion' },
+      { role: 'Alexandrian Sorcerer Heretic', weight: 155, reflexMs: 420, purse: 310, crime: 'Smuggling poisonous Nile cobras into Rome.', goldTeeth: true, sweatTier: 'Fine' },
+      { role: 'Condemned Praetorian Conspirator', weight: 190, reflexMs: 290, purse: 460, crime: 'High treason and forged imperial treasury seals.', goldTeeth: true, sweatTier: 'Noble' }
+    ];
+
+    const WORKSHOP_MACHINERY = [
+      { id: 'w_winch', name: 'Precision Bronze Capstan Winch', cost: 240, owned: false, desc: 'Increases kinetic energy tolerances for trapdoor releases by ±8%.' },
+      { id: 'w_spring', name: 'Tempered Iberian Torsion Springs', cost: 320, owned: false, desc: 'Accelerates scythed post and portcullis drops by 60 ms.' },
+      { id: 'w_sluice', name: 'Aqueduct Pressure Valves', cost: 480, owned: false, desc: 'Doubles hydraulic flow rate for Naumachia drownings and croc cages.' }
+    ];
+
+    const WORKSHOP_TOOLS = [
+      { id: 't_strigil', name: 'Tempered Bronze Strigil', cost: 180, owned: false, desc: 'Doubles gladiator sweat/oil harvest volume for cosmetic sales.' },
+      { id: 't_lead_amphora', name: 'Chilled Lead Amphorae', cost: 260, owned: false, desc: 'Delays blood clotting, ensuring 98%+ purity ratings.' },
+      { id: 't_charon_mallet', name: 'Charon’s Balanced Mallet', cost: 290, owned: false, desc: 'Delivers precise finishing strikes that preserve skulls and death masks.' },
+      { id: 't_pliers', name: 'Jeweled Etruscan Tooth Pliers', cost: 220, owned: false, desc: 'Extracts full gold dental bridge sets without chipping teeth.' }
+    ];
+
+    const state = {
+      day: 1,
+      sesterces: 650,
+      crowdEcstasy: 45,
+      caesarFavor: 50,
+      praetorHeat: 10,
+      careerIndex: 0,
+
+      // Trap Setup
+      activeTrap: 'lion', // 'lion', 'portcullis', 'pitfall', 'naumachia', 'scythe'
+      param1: 45,         // Winch / tension slider
+      param2: 520,        // Counterweight / pressure slider
+
+      // Stats
+      stats: {
+        spectacles: 0,
+        impalements: 0,
+        severances: 0,
+        deathMasks: 0,
+        bloodAmphorae: 0,
+        sweatVials: 0,
+        arbitrageProfit: 0,
+        lifetimeSesterces: 650
+      },
+
+      roster: [],
+      selectedSubjectId: null,
+
+      spoliariumCorpses: [],
+      selectedCorpseId: null,
+
+      vaultInventory: [],
+
+      // Auction
+      activeAuction: null,
+      auctionTimer: null,
+      selectedAuctionItemId: null,
+      auctionReserve: 180,
+
+      // Bargains
+      bargains: [],
+      bargainDaysLeft: 3
+    };
+
+    /* --------------------------------------------------------------------------
+       3. INITIALIZATION & RECOVERY
+       -------------------------------------------------------------------------- */
+    function initGame() {
+      state.roster = [
+        generateSubject(),
+        generateSubject(),
+        generateSubject()
+      ];
+      state.selectedSubjectId = state.roster[0].id;
+
+      populateOstiaBargains();
+      renderWorkshop();
+      updateTrapCalculations();
+      updateUI();
+      renderStats();
+      drawColosseumCanvas('idle');
+    }
+
+    function generateSubject(customName = null, customPurse = null) {
+      const fn = SUBJECT_NAMES[Math.floor(Math.random() * SUBJECT_NAMES.length)];
+      const orig = SUBJECT_ORIGINS[Math.floor(Math.random() * SUBJECT_ORIGINS.length)];
+      const name = customName || `${fn} ${orig}`;
+      const arch = SUBJECT_ARCHETYPES[Math.floor(Math.random() * SUBJECT_ARCHETYPES.length)];
+      const purse = customPurse || (arch.purse + Math.floor(Math.random() * 80) - 40);
+
+      return {
+        id: 'GLAD-' + Math.floor(100 + Math.random() * 900),
+        name: name,
+        role: arch.role,
+        weightLbs: arch.weight + Math.floor(Math.random() * 30) - 15,
+        reflexMs: arch.reflexMs + Math.floor(Math.random() * 40) - 20,
+        purse: purse,
+        crime: arch.crime,
+        hasGoldTeeth: arch.goldTeeth,
+        sweatTier: arch.sweatTier
+      };
+    }
+
+    function populateOstiaBargains() {
+      state.bargains = [];
+      const stock = [
+        { name: 'Gaulish Warrior Gold Teeth Casket', category: 'Curio', trueVal: 480 },
+        { name: 'Pitcher of Alexandrian Arterial Blood', category: 'Medicine', trueVal: 540 },
+        { name: 'Cured Numidian Lion Pelt & Claws', category: 'Beast', trueVal: 620 },
+        { name: 'Vial of Champion Strigilmentum (Sweat & Oil)', category: 'Cosmetic', trueVal: 420 },
+        { name: 'Severed Death Mask of Fallen Thracian', category: 'State', trueVal: 590 }
+      ];
+
+      for (let i = 0; i < 3; i++) {
+        const item = stock[Math.floor(Math.random() * stock.length)];
+        const trueAppraisal = Math.floor(item.trueVal * (1.1 + Math.random() * 0.4));
+        const basis = Math.floor(Math.random() * 4) + 1; // 1% to 5%
+        const price = Math.max(8, Math.round(trueAppraisal * (basis / 100)));
+
+        state.bargains.push({
+          id: 'BARGAIN-' + Math.floor(100 + Math.random() * 900),
+          title: item.name,
+          category: item.category,
+          trueAppraisal: trueAppraisal,
+          discountPct: 100 - basis,
+          price: price
+        });
+      }
+      renderBargains();
+    }
+
+    /* --------------------------------------------------------------------------
+       4. "CHOOSE HOW THEY DIE" TRAP PHYSICS ENGINE
+       -------------------------------------------------------------------------- */
+    function setTrapType(type) {
+      state.activeTrap = type;
+      playSound('winch');
+
+      document.querySelectorAll('.trap-btn').forEach(btn => {
+        btn.classList.remove('border-[#d4af37]', 'bg-[#3a1a2b]', 'text-amber-200', 'font-bold');
+        btn.classList.add('border-[#35251c]', 'bg-[#140f0d]', 'text-[#8e7a69]');
+      });
+      const b = document.getElementById('trap-' + type);
+      if (b) {
+        b.classList.add('border-[#d4af37]', 'bg-[#3a1a2b]', 'text-amber-200', 'font-bold');
+        b.classList.remove('border-[#35251c]', 'bg-[#140f0d]', 'text-[#8e7a69]');
+      }
+
+      // Configure sliders per trap
+      const s1 = document.getElementById('slider-param-1');
+      const s2 = document.getElementById('slider-param-2');
+      const l1 = document.getElementById('slider-1-label');
+      const l2 = document.getElementById('slider-2-label');
+
+      if (type === 'lion') {
+        l1.textContent = 'Capstan Lift Velocity:';
+        s1.min = 10; s1.max = 90; s1.value = 45;
+        l2.textContent = 'Lion Gate Spring Tension:';
+        s2.min = 200; s2.max = 900; s2.value = 540;
+      } else if (type === 'portcullis') {
+        l1.textContent = 'Drop Release Timing:';
+        s1.min = 100; s1.max = 600; s1.value = 320;
+        l2.textContent = 'Lead Counterweight Mass:';
+        s2.min = 300; s2.max = 1200; s2.value = 750;
+      } else if (type === 'pitfall') {
+        l1.textContent = 'Trapdoor Tripwire Delay:';
+        s1.min = 100; s1.max = 500; s1.value = 280;
+        l2.textContent = 'Subterranean Drop Depth:';
+        s2.min = 10; s2.max = 35; s2.value = 22;
+      } else if (type === 'naumachia') {
+        l1.textContent = 'Aqueduct Inflow Pressure:';
+        s1.min = 20; s1.max = 100; s1.value = 65;
+        l2.textContent = 'Sluice Aperture Opening:';
+        s2.min = 20; s2.max = 90; s2.value = 50;
+      } else if (type === 'scythe') {
+        l1.textContent = 'Torsion Wind-Up Torque:';
+        s1.min = 30; s1.max = 100; s1.value = 70;
+        l2.textContent = 'Blade Extension Radius:';
+        s2.min = 4; s2.max = 12; s2.value = 8;
+      }
+
+      updateTrapCalculations();
+      drawColosseumCanvas('idle');
+    }
+
+    function updateTrapCalculations() {
+      state.param1 = parseInt(document.getElementById('slider-param-1').value);
+      state.param2 = parseInt(document.getElementById('slider-param-2').value);
+
+      const target = getActiveSubject();
+      if (!target) return;
+
+      const type = state.activeTrap;
+      let force = 0;
+      let latency = 0;
+      let statusStr = 'OPTIMAL FATALITY';
+      let statusClass = 'text-emerald-400 font-bold';
+
+      if (type === 'lion') {
+        document.getElementById('val-param-1').textContent = `${state.param1} rpm`;
+        document.getElementById('val-param-2').textContent = `${state.param2} lbs tension`;
+        force = Math.round((state.param1 * 18) + (state.param2 * 0.8));
+        latency = Math.max(180, Math.round(950 - state.param1 * 8));
+      } else if (type === 'portcullis') {
+        document.getElementById('val-param-1').textContent = `${state.param1} ms`;
+        document.getElementById('val-param-2').textContent = `${state.param2} Roman Lbs`;
+        force = Math.round(state.param2 * 2.4);
+        latency = state.param1;
+      } else if (type === 'pitfall') {
+        document.getElementById('val-param-1').textContent = `${state.param1} ms`;
+        document.getElementById('val-param-2').textContent = `${state.param2} ft`;
+        force = Math.round(target.weightLbs * (state.param2 / 5));
+        latency = state.param1;
+      } else if (type === 'naumachia') {
+        document.getElementById('val-param-1').textContent = `${state.param1} bar`;
+        document.getElementById('val-param-2').textContent = `${state.param2} deg`;
+        force = Math.round(state.param1 * 26);
+        latency = Math.round(600 - state.param2 * 3);
+      } else if (type === 'scythe') {
+        document.getElementById('val-param-1').textContent = `${state.param1} ft-lbs`;
+        document.getElementById('val-param-2').textContent = `${state.param2} ft`;
+        force = Math.round(state.param1 * 22);
+        latency = 220;
+      }
+
+      // Check against target reflex
+      const timingDiff = Math.abs(latency - target.reflexMs);
+      let tolerance = 90;
+      if (hasUpgrade('w_winch')) tolerance += 35;
+
+      if (timingDiff <= 30) {
+        statusStr = 'SURGICAL PRECISION';
+        statusClass = 'text-emerald-400 font-bold';
+      } else if (timingDiff <= tolerance) {
+        statusStr = 'LETHAL IMPACT';
+        statusClass = 'text-amber-300 font-bold';
+      } else {
+        statusStr = 'RISK OF BOTCH / DODGE';
+        statusClass = 'text-rose-500 font-bold';
+      }
+
+      document.getElementById('tele-force').textContent = `${force} ft-lbs`;
+      document.getElementById('tele-latency').textContent = `${latency} ms`;
+      const stEl = document.getElementById('tele-status');
+      stEl.textContent = statusStr;
+      stEl.className = statusClass;
+
+      return { force, latency, timingDiff, tolerance, type };
+    }
+
+    function getActiveSubject() {
+      return state.roster.find(s => s.id === state.selectedSubjectId) || state.roster[0];
+    }
+
+    function executeTrapSequence() {
+      const subject = getActiveSubject();
+      if (!subject) {
+        showToast('No Subject', 'Select a victim from the Munera Roster.');
+        return;
+      }
+
+      const p = updateTrapCalculations();
+
+      playSound('winch');
+
+      // Dodge Check
+      if (p.timingDiff > p.tolerance + 60 && Math.random() > 0.4) {
+        playSound('clang');
+        drawColosseumCanvas('dodge');
+        showToast('Gladiator Dodged!', `${subject.name} sensed the floor shudder and rolled clear.`);
+        state.crowdEcstasy = Math.max(10, state.crowdEcstasy - 8);
+        updateUI();
+        return;
+      }
+
+      // Successful Lethal Execution
+      let outcome = '';
+      let purity = 90;
+      let crowdBonus = 12;
+      let caesarBonus = 8;
+      let narrative = '';
+
+      if (p.type === 'portcullis') {
+        playSound('clang');
+        outcome = 'impalement';
+        purity = 96;
+        crowdBonus = 18;
+        caesarBonus = 14;
+        narrative = `The massive spiked bronze portcullis dropped from the high stone archway at ${p.force} ft-lbs! The heavy bronze teeth impaled ${subject.name} cleanly through the thoracic breastplate, pinning him to the marble. Because the skull escaped crushing, the death mask and arterial blood remain PRISTINE.`;
+        state.stats.impalements++;
+        drawColosseumCanvas('portcullis_hit');
+      } else if (p.type === 'lion') {
+        playSound('roar');
+        outcome = 'lion_rend';
+        purity = 65;
+        crowdBonus = 24;
+        caesarBonus = 10;
+        narrative = `The subterranean cage shot upward through the sand with a roar! A starved Numidian lion lunged across the arena, tearing into ${subject.name}. The spectacle drove the Plebeian mobs wild. Warning: Cranium and vascular vessels shredded, but lion claws and pelts are ready for harvest.`;
+        state.stats.severances++;
+        drawColosseumCanvas('lion_hit');
+      } else if (p.type === 'pitfall') {
+        playSound('clang');
+        outcome = 'pitfall';
+        purity = 98;
+        crowdBonus = 10;
+        caesarBonus = 12;
+        narrative = `The counterweighted hegmata trapdoor collapsed precisely as ${subject.name} charged forward. He plunged 22 feet into the subterranean pitfall onto waiting stakes. The fall preserved the facial death mask and left arterial blood ready for immediate bottling.`;
+        drawColosseumCanvas('pitfall_hit');
+      } else if (p.type === 'naumachia') {
+        playSound('winch');
+        outcome = 'drowning';
+        purity = 94;
+        crowdBonus = 15;
+        caesarBonus = 16;
+        narrative = `The sluice gates burst open as thousands of gallons of aqueduct water flooded the arena trench, sweeping ${subject.name} into the jaws of Nile crocodiles. Drowning preserves the gladiator's skin and dental enamel without blood bruising.`;
+        drawColosseumCanvas('naumachia_hit');
+      } else { // scythe
+        playSound('clang');
+        outcome = 'severance';
+        purity = 75;
+        crowdBonus = 20;
+        caesarBonus = 6;
+        narrative = `The concealed torsion post pivoted out from the arena barrier at blinding speed, scything clean through limbs and torso. The sand turned crimson instantly as the Plebeians roared with bloodlust.`;
+        state.stats.severances++;
+        drawColosseumCanvas('scythe_hit');
+      }
+
+      // Rewards
+      state.sesterces += subject.purse;
+      state.stats.lifetimeSesterces += subject.purse;
+      state.stats.spectacles++;
+      state.crowdEcstasy = Math.min(100, state.crowdEcstasy + crowdBonus);
+      state.caesarFavor = Math.min(100, state.caesarFavor + caesarBonus);
+
+      // Deposit to Spoliarium Mortuary
+      const corpseEntry = {
+        id: 'CORPSE-' + subject.id,
+        name: subject.name,
+        role: subject.role,
+        purse: subject.purse,
+        weight: subject.weightLbs,
+        hitType: outcome,
+        purity: purity,
+        hasGoldTeeth: subject.hasGoldTeeth,
+        sweatTier: subject.sweatTier,
+        harvested: []
+      };
+      state.spoliariumCorpses.unshift(corpseEntry);
+
+      // Open Post-Fatality Modal
+      openPostFatalityModal(subject, outcome, narrative, p.force, purity, crowdBonus);
+
+      // Remove from active roster
+      state.roster = state.roster.filter(s => s.id !== subject.id);
+      state.selectedSubjectId = state.roster.length > 0 ? state.roster[0].id : null;
+
+      updateCareerStanding();
+      updateUI();
+      renderStats();
+    }
+
+    /* --------------------------------------------------------------------------
+       5. COLOSSEUM CUTAWAY CANVAS (ARENA ABOVE, HYPOGEUM BELOW)
+       -------------------------------------------------------------------------- */
+    function drawColosseumCanvas(mode) {
+      const canvas = document.getElementById('colosseum-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width = canvas.parentElement.clientWidth;
+      const h = canvas.height = canvas.parentElement.clientHeight;
+
+      ctx.clearRect(0, 0, w, h);
+
+      const arenaFloorY = h * 0.45;
+
+      // 1. TOP HALF: ARENA FLOOR & SUNLIT SAND
+      const sandGrad = ctx.createLinearGradient(0, 0, 0, arenaFloorY);
+      sandGrad.addColorStop(0, '#533b28');
+      sandGrad.addColorStop(0.7, '#8f6e4a');
+      sandGrad.addColorStop(1, '#bba37f');
+      ctx.fillStyle = sandGrad;
+      ctx.fillRect(0, 0, w, arenaFloorY);
+
+      // Colosseum Stone Arena Wall Perimeter
+      ctx.fillStyle = '#2c1e16';
+      ctx.fillRect(0, 0, w, arenaFloorY * 0.25);
+      // Stone arches
+      ctx.fillStyle = '#1c130d';
+      for (let x = 10; x < w; x += 36) {
+        ctx.fillRect(x, 4, 20, arenaFloorY * 0.2);
+      }
+
+      // 2. MIDDLE DIVIDER: WOODEN ARENA BOARDS & TRAPDOORS
+      ctx.fillStyle = '#3a2416';
+      ctx.fillRect(0, arenaFloorY - 4, w, 8);
+
+      // Trapdoor Hatch
+      ctx.fillStyle = (mode === 'pitfall_hit' || mode === 'lion_hit') ? '#140c07' : '#573922';
+      ctx.fillRect(w * 0.55, arenaFloorY - 5, w * 0.22, 10);
+
+      // 3. BOTTOM HALF: DARK SUBTERRANEAN HYPOGEUM LABYRINTH
+      const hypGrad = ctx.createLinearGradient(0, arenaFloorY, 0, h);
+      hypGrad.addColorStop(0, '#130d0a');
+      hypGrad.addColorStop(1, '#070504');
+      ctx.fillStyle = hypGrad;
+      ctx.fillRect(0, arenaFloorY + 4, w, h - arenaFloorY);
+
+      // Hypogeum Masonry Pillars & Arches
+      ctx.fillStyle = '#1f140e';
+      ctx.fillRect(w * 0.15, arenaFloorY, 16, h);
+      ctx.fillRect(w * 0.45, arenaFloorY, 16, h);
+      ctx.fillRect(w * 0.82, arenaFloorY, 16, h);
+
+      // Subterranean Capstan Winch (Center-Left)
+      const capX = w * 0.3;
+      const capY = h * 0.75;
+      ctx.fillStyle = '#593922';
+      ctx.fillRect(capX - 12, capY - 18, 24, 36);
+      ctx.strokeStyle = '#d4af37';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(capX - 12, capY - 18, 24, 36);
+
+      // Winch Rope Connecting to Arena Trapdoor
+      ctx.strokeStyle = '#8e7a69';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(capX, capY - 18);
+      ctx.lineTo(w * 0.55, arenaFloorY + 4);
+      ctx.stroke();
+
+      // Cage Lift in Hypogeum (Under Trapdoor)
+      const cageX = w * 0.65;
+      const cageY = (mode === 'lion_hit') ? arenaFloorY - 20 : h * 0.7;
+      ctx.fillStyle = '#26170e';
+      ctx.fillRect(cageX - 18, cageY, 36, 40);
+      ctx.strokeStyle = '#8a623e';
+      ctx.lineWidth = 2;
+      for (let bar = -14; bar <= 14; bar += 7) {
+        ctx.beginPath();
+        ctx.moveTo(cageX + bar, cageY);
+        ctx.lineTo(cageX + bar, cageY + 40);
+        ctx.stroke();
+      }
+
+      // 4. ACTORS ON THE ARENA SAND
+      const gladX = w * 0.65;
+      const gladY = arenaFloorY - 4;
+
+      if (mode === 'portcullis_hit') {
+        // Spiked portcullis fallen through target
+        ctx.fillStyle = '#6b1c1c';
+        ctx.beginPath();
+        ctx.arc(gladX, gladY, 16, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Bronze Spikes
+        ctx.fillStyle = '#bfa588';
+        for (let sp = -15; sp <= 15; sp += 6) {
+          ctx.fillRect(gladX + sp, gladY - 35, 3, 40);
+        }
+      } else if (mode === 'lion_hit') {
+        // Lion on top of victim
+        ctx.fillStyle = '#c28532';
+        ctx.beginPath();
+        ctx.arc(gladX + 8, gladY - 12, 14, 0, Math.PI * 2);
+        ctx.fill();
+        // Blood pool
+        ctx.fillStyle = '#8a1c1c';
+        ctx.beginPath();
+        ctx.arc(gladX - 6, gladY, 12, 0, Math.PI * 2);
+        ctx.fill();
+      } else if (mode === 'pitfall_hit') {
+        // Falling down through trapdoor
+        ctx.fillStyle = '#8a1c1c';
+        ctx.fillRect(gladX - 6, arenaFloorY + 10, 14, 25);
+      } else {
+        // Standard Gladiator Stance on Arena Floor
+        ctx.fillStyle = '#1c130d';
+        // Body
+        ctx.fillRect(gladX - 6, gladY - 36, 12, 36);
+        // Helmet with crest
+        ctx.fillStyle = '#d4af37';
+        ctx.beginPath();
+        ctx.arc(gladX, gladY - 42, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillRect(gladX - 2, gladY - 52, 4, 10);
+        // Shield
+        ctx.fillStyle = '#7a1c1c';
+        ctx.fillRect(gladX - 14, gladY - 28, 6, 20);
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       6. POST-FATALITY MODAL
+       -------------------------------------------------------------------------- */
+    function openPostFatalityModal(subject, outcome, narrative, force, purity, crowd) {
+      document.getElementById('pf-subject-name').textContent = subject.name;
+      document.getElementById('pf-subject-crime').textContent = `${subject.role} • ${subject.crime}`;
+      document.getElementById('pf-imperial-purse').textContent = `IMPERIAL PURSE: ${subject.purse} 𐆖`;
+      document.getElementById('pf-narrative-text').textContent = narrative;
+
+      document.getElementById('pf-mech-type').textContent = state.activeTrap.toUpperCase();
+      document.getElementById('pf-kinetic').textContent = `${force} ft-lbs`;
+      document.getElementById('pf-purity').textContent = `${purity}%`;
+      document.getElementById('pf-crowd').textContent = `+${crowd}%`;
+
+      document.getElementById('post-fatality-modal').classList.remove('hidden');
+    }
+
+    function closePostFatalityModal() {
+      document.getElementById('post-fatality-modal').classList.add('hidden');
+    }
+
+    function transferToSpoliarium() {
+      closePostFatalityModal();
+      switchTab('spoliarium');
+    }
+
+    /* --------------------------------------------------------------------------
+       7. SPOLIARIUM MORGUE & HISTORICAL ROMAN HARVESTING
+       -------------------------------------------------------------------------- */
+    function renderSpoliarium() {
+      const list = document.getElementById('spoliarium-corpse-list');
+      document.getElementById('corpse-count-label').textContent = `${state.spoliariumCorpses.length} Bodies`;
+      document.getElementById('spoliarium-count-badge').textContent = state.spoliariumCorpses.length;
+
+      if (state.spoliariumCorpses.length === 0) {
+        list.innerHTML = `<p class="text-xs text-[#654e3d] italic p-3">No fallen fighters in the Spoliarium morgue. Pull subterranean levers in the Hypogeum.</p>`;
+        document.getElementById('slab-subject-name').textContent = 'No Cadaver on the Marble';
+        document.getElementById('slab-subject-sub').textContent = 'Select a fallen gladiator or beast from the chute list to harvest.';
+        document.getElementById('slab-purity-label').textContent = 'Purity: --';
+        document.getElementById('harvest-card-grid').innerHTML = '';
+        renderVaultInventory();
+        return;
+      }
+
+      list.innerHTML = state.spoliariumCorpses.map(c => `
+        <div onclick="selectSpoliariumCorpse('${c.id}')" class="roman-inset p-2.5 rounded border ${state.selectedCorpseId === c.id ? 'border-[#d4af37] bg-[#27151f]' : 'border-[#2b1b13]'} cursor-pointer transition">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-roman font-bold text-amber-200">${c.name}</span>
+            <span class="text-[10px] text-amber-400 font-bold">${c.purity}% Purity</span>
+          </div>
+          <div class="flex justify-between text-[11px] text-[#8e7a69] mt-1">
+            <span>${c.role}</span>
+            <span>${c.harvested.length}/6 Stripped</span>
+          </div>
+        </div>
+      `).join('');
+
+      renderHarvestOptions();
+      renderVaultInventory();
+    }
+
+    function selectSpoliariumCorpse(id) {
+      state.selectedCorpseId = id;
+      playSound('winch');
+      renderSpoliarium();
+    }
+
+    function renderHarvestOptions() {
+      const corpse = state.spoliariumCorpses.find(c => c.id === state.selectedCorpseId) || state.spoliariumCorpses[0];
+      if (!corpse) return;
+
+      state.selectedCorpseId = corpse.id;
+      document.getElementById('slab-subject-name').textContent = corpse.name;
+      document.getElementById('slab-subject-sub').textContent = `${corpse.role} — Felled via ${corpse.hitType.toUpperCase()}`;
+      document.getElementById('slab-purity-label').textContent = `Purity: ${corpse.purity}%`;
+
+      const options = [
+        {
+          key: 'blood',
+          name: 'Warm Arterial Blood (Pliny Cure)',
+          baseVal: 240,
+          desc: 'Prescribed by Roman physicians for epilepsy. Tapped immediately.',
+          condition: corpse.hitType !== 'lion_rend'
+        },
+        {
+          key: 'sweat',
+          name: 'Gladiator Strigilmentum (Sweat & Oil)',
+          baseVal: hasUpgrade('t_strigil') ? 320 : 180,
+          desc: 'Scraped with strigil for patrician cosmetic ointments.',
+          condition: true
+        },
+        {
+          key: 'mask',
+          name: 'Intact Death Mask & Cranium',
+          baseVal: Math.round(corpse.purse * 1.6),
+          desc: hasUpgrade('t_charon_mallet') ? 'Flawless cast via balanced Charon mallet.' : 'Facial features preserved for Roman home shrines.',
+          condition: corpse.hitType !== 'scythe'
+        },
+        {
+          key: 'teeth',
+          name: 'Etruscan Gold Dental Bridge',
+          baseVal: hasUpgrade('t_pliers') ? 280 : 130,
+          desc: hasUpgrade('t_pliers') ? 'Extracted with jeweled pliers.' : 'Wired dental gold pried loose.',
+          condition: corpse.hasGoldTeeth
+        },
+        {
+          key: 'lion_pelt',
+          name: 'Numidian Lion Pelt & Claws',
+          baseVal: 340,
+          desc: 'Cured arena beast hide.',
+          condition: corpse.hitType === 'lion_rend'
+        },
+        {
+          key: 'sand',
+          name: 'Blood-Soaked Arena Sand (Harena)',
+          baseVal: 95,
+          desc: 'Scooped from kill perimeter; lucky charm for chariot race gamblers.',
+          condition: true
+        }
+      ];
+
+      const grid = document.getElementById('harvest-card-grid');
+      grid.innerHTML = options.map(opt => {
+        if (!opt.condition) {
+          return `
+            <div class="roman-inset p-2.5 rounded border border-[#20150f] opacity-40">
+              <p class="font-roman font-bold text-zinc-500 text-xs">${opt.name}</p>
+              <p class="text-[10px] text-[#654e3d] mt-1">Ruined by execution trauma</p>
+            </div>
+          `;
+        }
+
+        const done = corpse.harvested.includes(opt.key);
+        let val = Math.round(opt.baseVal * (corpse.purity / 100));
+        if (opt.key === 'blood' && hasUpgrade('t_lead_amphora')) val = Math.round(val * 1.25);
+
+        return `
+          <div class="roman-inset p-2.5 rounded border ${done ? 'border-[#1f140e] opacity-40' : 'border-[#3b2a20] hover:border-amber-600'} flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-roman font-bold text-amber-200">${opt.name}</span>
+                <span class="text-yellow-300 font-bold">${val} 𐆖</span>
+              </div>
+              <p class="text-[10px] text-[#8e7a69] mt-1">${opt.desc}</p>
+            </div>
+            <button onclick="extractCommodity('${corpse.id}', '${opt.key}', '${opt.name}', ${val})" ${done ? 'disabled' : ''} class="mt-2 py-1.5 rounded bg-[#1f1019] border border-[#52233e] text-amber-300 font-roman text-xs hover:border-amber-400 disabled:opacity-40">
+              ${done ? 'Harvested' : 'Extract Specimen'}
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function extractCommodity(corpseId, key, name, val) {
+      const c = state.spoliariumCorpses.find(x => x.id === corpseId);
+      if (!c) return;
+      if (c.harvested.includes(key)) return;
+
+      if (key === 'sweat') playSound('scrape');
+      else playSound('clang');
+
+      c.harvested.push(key);
+
+      if (key === 'blood') state.stats.bloodAmphorae++;
+      if (key === 'sweat') state.stats.sweatVials++;
+      if (key === 'mask') state.stats.deathMasks++;
+
+      state.vaultInventory.unshift({
+        id: 'VAULT-' + Date.now(),
+        name: `${name} (${c.name})`,
+        category: key === 'sweat' ? 'Cosmetic' : (key === 'blood' ? 'Medicine' : (key === 'mask' ? 'State' : 'Curio')),
+        baseVal: val,
+        purity: c.purity,
+        stars: c.purity > 90 ? '★★★' : (c.purity > 65 ? '★★☆' : '★☆☆')
+      });
+
+      showToast('Specimen Vaulted', `${name} stashed in Vault. Ready for Subura auction.`);
+
+      if (c.harvested.length >= 4) {
+        state.spoliariumCorpses = state.spoliariumCorpses.filter(x => x.id !== c.id);
+        state.selectedCorpseId = state.spoliariumCorpses.length > 0 ? state.spoliariumCorpses[0].id : null;
+      }
+
+      renderSpoliarium();
+      renderStats();
+    }
+
+    function renderVaultInventory() {
+      const container = document.getElementById('vault-inventory-container');
+      if (state.vaultInventory.length === 0) {
+        container.innerHTML = `<span class="text-xs text-[#654e3d] italic">Vault empty. Harvest gladiator blood, sweat, and death masks.</span>`;
+        return;
+      }
+
+      container.innerHTML = state.vaultInventory.map(item => `
+        <div class="px-2 py-1 rounded bg-[#1a1117] border border-[#48283a] text-xs flex items-center gap-1.5">
+          <span class="text-amber-200 font-roman">${item.name}</span>
+          <span class="text-yellow-300 font-bold">(${item.baseVal} 𐆖)</span>
+          <span class="text-purple-400 font-bold">${item.stars}</span>
+        </div>
+      `).join('');
+    }
+
+    /* --------------------------------------------------------------------------
+       8. SUBURA AUCTION WALL (SELLING ENGINE)
+       -------------------------------------------------------------------------- */
+    function renderAuctionWall() {
+      const list = document.getElementById('auction-inventory-list');
+      document.getElementById('auction-lots-count').textContent = `${state.vaultInventory.length} Lots`;
+
+      if (state.vaultInventory.length === 0) {
+        list.innerHTML = `<p class="text-xs text-[#654e3d] italic p-3">Vault empty. Extract anatomical relics or purchase Ostia bargains to mount lots.</p>`;
+        return;
+      }
+
+      list.innerHTML = state.vaultInventory.map(item => `
+        <div onclick="selectAuctionLotItem('${item.id}')" class="roman-inset p-2 rounded border ${state.selectedAuctionItemId === item.id ? 'border-[#d4af37] bg-[#27151f]' : 'border-[#2b1b13]'} cursor-pointer transition flex justify-between items-center text-xs">
+          <div>
+            <p class="font-roman font-bold text-amber-200">${item.name}</p>
+            <p class="text-[10px] text-[#8e7a69]">${item.category} • <span class="text-amber-400">${item.stars}</span></p>
+          </div>
+          <span class="text-yellow-300 font-bold">${item.baseVal} 𐆖</span>
+        </div>
+      `).join('');
+    }
+
+    function selectAuctionLotItem(id) {
+      if (state.activeAuction) {
+        showToast('Auction Running', 'Conclude the current bidding ring first.');
+        return;
+      }
+      state.selectedAuctionItemId = id;
+      playSound('winch');
+      const item = state.vaultInventory.find(i => i.id === id);
+      if (item) {
+        const slider = document.getElementById('auction-reserve-slider');
+        slider.min = Math.round(item.baseVal * 0.4);
+        slider.max = Math.round(item.baseVal * 1.8);
+        slider.value = Math.round(item.baseVal * 0.85);
+        updateAuctionReservePrice(slider.value);
+      }
+      renderAuctionWall();
+    }
+
+    function updateAuctionReservePrice(val) {
+      state.auctionReserve = parseInt(val);
+      document.getElementById('auction-reserve-display').textContent = `${state.auctionReserve} 𐆖`;
+    }
+
+    function startSuburaBidding() {
+      if (state.activeAuction) return;
+      if (!state.selectedAuctionItemId) {
+        showToast('Select Lot', 'Choose an item from your Vault to put on the marble block.');
+        return;
+      }
+
+      const item = state.vaultInventory.find(i => i.id === state.selectedAuctionItemId);
+      if (!item) return;
+
+      playSound('gavel');
+      state.vaultInventory = state.vaultInventory.filter(i => i.id !== item.id);
+      state.selectedAuctionItemId = null;
+
+      state.activeAuction = {
+        item: item,
+        currentBid: state.auctionReserve,
+        highBidder: 'Subura Floor Call',
+        round: 1,
+        maxRounds: 5
+      };
+
+      document.getElementById('auction-state-tag').textContent = 'BIDDING ACTIVE';
+      document.getElementById('auction-state-tag').className = 'text-[10px] px-2 py-0.5 rounded bg-emerald-950 border border-emerald-700 text-emerald-300 font-roman animate-pulse';
+      document.getElementById('btn-strike-gavel').disabled = false;
+
+      renderAuctionWall();
+      renderActiveBiddingBanner();
+      addSuburaBanter(`Charon scepter cracks! Bidding opens on "${item.name}" at ${state.auctionReserve} 𐆖!`);
+
+      if (state.auctionTimer) clearInterval(state.auctionTimer);
+      state.auctionTimer = setInterval(suburaAuctionTick, 1800);
+    }
+
+    function suburaAuctionTick() {
+      if (!state.activeAuction) {
+        clearInterval(state.auctionTimer);
+        return;
+      }
+
+      const lot = state.activeAuction;
+      const bidders = [
+        { name: 'Lady Lucilla (Patrician Matron)', bias: 'Cosmetic', max: 1200, quote: "This gladiator sweat will make an incomparable skin unguent for tonight's banquet!" },
+        { name: 'Medicus Galenus (Imperial Physician)', bias: 'Medicine', max: 1400, quote: "Warm arterial blood straight from the arena floor! Pliny was right!" },
+        { name: 'Senator Lucius (Noble Collector)', bias: 'State', max: 1600, quote: "A magnificent cranium death mask for my atrium lararium!" },
+        { name: 'Lanista Vatia (Ludus Owner)', bias: 'Curio', max: 950, quote: "My novice murmillo gladiators must touch this blood-soaked sand before their matches!" }
+      ];
+
+      if (lot.round <= lot.maxRounds) {
+        const eligible = bidders.filter(b => b.bias === lot.item.category || Math.random() > 0.4);
+        const bidder = eligible[Math.floor(Math.random() * eligible.length)];
+
+        const raise = Math.floor(Math.random() * 80) + 40;
+        const newBid = lot.currentBid + raise;
+
+        if (bidder && newBid <= bidder.max && bidder.name !== lot.highBidder) {
+          lot.currentBid = newBid;
+          lot.highBidder = bidder.name;
+          playSound('coin');
+          addSuburaBanter(`${bidder.name} shouts: ${lot.currentBid} 𐆖! "${bidder.quote}"`);
+        } else {
+          addSuburaBanter(`The Subura whispers... Standing high bid is ${lot.currentBid} 𐆖.`);
+        }
+
+        lot.round++;
+        renderActiveBiddingBanner();
+      } else {
+        finalizeAuctionSale();
+      }
+    }
+
+    function finalizeAuctionSale() {
+      clearInterval(state.auctionTimer);
+      state.auctionTimer = null;
+      if (!state.activeAuction) return;
+
+      const lot = state.activeAuction;
+      playSound('gavel');
+
+      const profit = lot.currentBid;
+      state.sesterces += profit;
+      state.stats.lifetimeSesterces += profit;
+      state.stats.arbitrageProfit += profit;
+      state.praetorHeat += 3;
+
+      addSuburaBanter(`[SOLD] ⚡ The Charon Scepter slams down! "${lot.item.name}" knocked down to ${lot.highBidder} for ${profit} 𐆖!`);
+      showToast('Knocked Down!', `${lot.item.name} went to ${lot.highBidder} for ${profit} 𐆖.`);
+
+      state.activeAuction = null;
+      document.getElementById('auction-state-tag').textContent = 'PARLOR DORMANT';
+      document.getElementById('auction-state-tag').className = 'text-[10px] px-2 py-0.5 rounded bg-zinc-900 border border-zinc-700 text-zinc-400 font-roman';
+      document.getElementById('btn-strike-gavel').disabled = true;
+
+      renderActiveBiddingBanner();
+      updateUI();
+      renderStats();
+    }
+
+    function renderActiveBiddingBanner() {
+      const banner = document.getElementById('active-bidding-banner');
+      if (!state.activeAuction) {
+        banner.innerHTML = `<p class="text-xs text-[#654e3d] italic text-center py-3">No commodity on the marble block. Select a harvested lot to open bids.</p>`;
+        return;
+      }
+
+      const lot = state.activeAuction;
+      banner.innerHTML = `
+        <div class="flex justify-between items-start mb-2">
+          <div>
+            <h4 class="font-roman font-bold text-amber-200 text-sm sm:text-base">${lot.item.name}</h4>
+            <span class="text-xs text-[#8e7a69]">${lot.item.category} Commodity • Quality: ${lot.item.stars}</span>
+          </div>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-[#351025] text-amber-300 border border-[#832657] font-roman">Round ${lot.round}/${lot.maxRounds}</span>
+        </div>
+        <div class="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-[#2b1b13]">
+          <div>
+            <span class="text-[#7b6756] block text-[10px]">High Offer:</span>
+            <span class="text-yellow-300 font-bold text-base sm:text-lg">${lot.currentBid} 𐆖</span>
+          </div>
+          <div>
+            <span class="text-[#7b6756] block text-[10px]">Patrician Caller:</span>
+            <span class="text-amber-200 font-roman font-bold">${lot.highBidder}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function addSuburaBanter(msg) {
+      const feed = document.getElementById('auction-dialogue-feed');
+      const p = document.createElement('p');
+      p.className = 'py-0.5 border-b border-[#21150f] text-[#cfc4b4]';
+      p.innerHTML = `<span class="text-amber-500 font-bold">🦅</span> ${msg}`;
+      feed.insertBefore(p, feed.firstChild);
+    }
+
+    /* --------------------------------------------------------------------------
+       9. OSTIA DOCKS BARGAINS (1-5% DEEP ARBITRAGE)
+       -------------------------------------------------------------------------- */
+    function renderBargains() {
+      const grid = document.getElementById('bargains-lot-grid');
+      document.getElementById('bargain-timer-label').textContent = `${state.bargainDaysLeft} Munera`;
+
+      grid.innerHTML = state.bargains.map(b => `
+        <div class="roman-inset p-3 rounded border border-[#3b2a20] hover:border-amber-600 flex flex-col justify-between transition">
+          <div>
+            <div class="flex justify-between items-center gap-2 mb-1.5">
+              <span class="text-[9px] font-roman font-bold text-rose-300 bg-rose-950 px-1.5 py-0.5 rounded border border-rose-800">
+                ${b.discountPct}% DISCOUNT
+              </span>
+              <span class="text-[10px] text-amber-400 font-roman uppercase">${b.category}</span>
+            </div>
+            <h4 class="font-roman font-bold text-amber-200 text-xs sm:text-sm mb-1">${b.title}</h4>
+            <p class="text-[11px] text-[#8e7a69] italic mb-2">Unloaded off Alexandrian & Gaulish galleys.</p>
+
+            <div class="space-y-1 text-xs roman-panel p-2 rounded border border-[#2b1b13] mb-3">
+              <div class="flex justify-between text-[#7b6756]">
+                <span>Appraised Value:</span>
+                <span class="line-through text-zinc-400">${b.trueAppraisal} 𐆖</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-amber-300 font-bold">Ostia Price:</span>
+                <span class="text-emerald-400 font-bold text-sm">${b.price} 𐆖</span>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="buyOstiaBargain('${b.id}')" class="w-full py-1.5 bg-gradient-to-r from-[#44122d] to-[#1c0812] border border-[#d4af37] hover:brightness-110 text-amber-200 font-roman text-xs font-bold rounded transition">
+            Buy Contraband (${b.price} 𐆖)
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function buyOstiaBargain(id) {
+      const b = state.bargains.find(x => x.id === id);
+      if (!b) return;
+
+      if (state.sesterces < b.price) {
+        showToast('Insufficient Sesterces', `You need ${b.price} 𐆖.`);
+        return;
+      }
+
+      playSound('coin');
+      state.sesterces -= b.price;
+
+      state.vaultInventory.unshift({
+        id: 'VAULT-' + Date.now(),
+        name: b.title,
+        category: b.category,
+        baseVal: b.trueAppraisal,
+        purity: 95,
+        stars: '★★★'
+      });
+
+      state.bargains = state.bargains.filter(x => x.id !== id);
+      showToast('Contraband Bought', `Secured at ${b.price} 𐆖 (Appraised at ${b.trueAppraisal} 𐆖). Vaulted!`);
+
+      renderBargains();
+      renderVaultInventory();
+      updateUI();
+    }
+
+    function bribeHarborMaster() {
+      if (state.sesterces < 30) {
+        showToast('Insufficient Sesterces', '30 𐆖 needed to grease the Port Prefect.');
+        return;
+      }
+      playSound('coin');
+      state.sesterces -= 30;
+      populateOstiaBargains();
+      showToast('Prefect Bribed', 'Fresh contraband cargo brought from the Ostia docks.');
+      updateUI();
+    }
+
+    /* --------------------------------------------------------------------------
+       10. WORKSHOP & APPARATUS UPGRADES
+       -------------------------------------------------------------------------- */
+    function renderWorkshop() {
+      const mList = document.getElementById('workshop-machinery-list');
+      mList.innerHTML = WORKSHOP_MACHINERY.map(m => `
+        <div class="roman-inset p-2.5 rounded border border-[#2b1b13] flex items-center justify-between">
+          <div class="pr-2">
+            <p class="font-roman font-bold text-amber-200 text-xs sm:text-sm">${m.name}</p>
+            <p class="text-[11px] text-[#8e7a69]">${m.desc}</p>
+          </div>
+          <div>
+            ${m.owned ? `
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700 font-roman font-bold">Forged</span>
+            ` : `
+              <button onclick="buyWorkshopItem('machinery', '${m.id}', ${m.cost})" class="px-2.5 py-1 rounded bg-[#351025] border border-[#832657] text-amber-200 text-xs font-roman hover:brightness-110 whitespace-nowrap">
+                ${m.cost} 𐆖
+              </button>
+            `}
+          </div>
+        </div>
+      `).join('');
+
+      const tList = document.getElementById('workshop-tools-list');
+      tList.innerHTML = WORKSHOP_TOOLS.map(t => `
+        <div class="roman-inset p-2.5 rounded border border-[#2b1b13] flex items-center justify-between">
+          <div class="pr-2">
+            <p class="font-roman font-bold text-amber-200 text-xs sm:text-sm">${t.name}</p>
+            <p class="text-[11px] text-[#8e7a69]">${t.desc}</p>
+          </div>
+          <div>
+            ${t.owned ? `
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-700 font-roman font-bold">Acquired</span>
+            ` : `
+              <button onclick="buyWorkshopItem('tool', '${t.id}', ${t.cost})" class="px-2.5 py-1 rounded bg-[#351025] border border-[#832657] text-amber-200 text-xs font-roman hover:brightness-110 whitespace-nowrap">
+                ${t.cost} 𐆖
+              </button>
+            `}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function buyWorkshopItem(type, id, cost) {
+      if (state.sesterces < cost) {
+        showToast('Insufficient Sesterces', 'More silver denarii needed.');
+        return;
+      }
+      playSound('clang');
+      state.sesterces -= cost;
+      if (type === 'machinery') {
+        const item = WORKSHOP_MACHINERY.find(x => x.id === id);
+        if (item) item.owned = true;
+      } else {
+        const item = WORKSHOP_TOOLS.find(x => x.id === id);
+        if (item) item.owned = true;
+      }
+      showToast('Implement Acquired', 'Subterranean efficiency upgraded.');
+      renderWorkshop();
+      updateTrapCalculations();
+      updateUI();
+    }
+
+    function hasUpgrade(id) {
+      const m = WORKSHOP_MACHINERY.find(x => x.id === id);
+      if (m && m.owned) return true;
+      const t = WORKSHOP_TOOLS.find(x => x.id === id);
+      return t ? t.owned : false;
+    }
+
+    /* --------------------------------------------------------------------------
+       11. CAREER RANK & STATS TRACKING
+       -------------------------------------------------------------------------- */
+    function updateCareerStanding() {
+      if (state.stats.impalements + state.stats.severances >= 12 && state.stats.lifetimeSesterces >= 7000) {
+        state.careerIndex = 3;
+      } else if (state.stats.lifetimeSesterces >= 2500) {
+        state.careerIndex = 2;
+      } else if (state.stats.impalements >= 4) {
+        state.careerIndex = 1;
+      } else {
+        state.careerIndex = 0;
+      }
+
+      const title = ROMAN_TITLES[state.careerIndex];
+      document.getElementById('rank-badge').textContent = title;
+      document.getElementById('stats-title-label').textContent = title;
+    }
+
+    function renderStats() {
+      document.getElementById('st-spectacles').textContent = state.stats.spectacles;
+      document.getElementById('st-impalements').textContent = state.stats.impalements;
+      document.getElementById('st-severances').textContent = state.stats.severances;
+      document.getElementById('st-masks').textContent = state.stats.deathMasks;
+      document.getElementById('st-blood').textContent = state.stats.bloodAmphorae;
+      document.getElementById('st-sweat').textContent = state.stats.sweatVials;
+      document.getElementById('st-arbitrage').textContent = `${state.stats.arbitrageProfit} 𐆖`;
+      document.getElementById('st-lifetime').textContent = `${state.stats.lifetimeSesterces} 𐆖`;
+
+      for (let i = 1; i <= 4; i++) {
+        const card = document.getElementById('rank-step-' + i);
+        if (card) {
+          if (i - 1 === state.careerIndex) {
+            card.className = 'p-2 rounded border border-amber-600 bg-[#25150a] font-bold text-amber-200';
+          } else if (i - 1 < state.careerIndex) {
+            card.className = 'p-2 rounded border border-emerald-900 bg-[#0d140e] text-emerald-300';
+          } else {
+            card.className = 'p-2 rounded border border-[#2b1b13] opacity-50 text-zinc-400';
+          }
+        }
+      }
+    }
+
+    function resetStatsChronicle() {
+      state.stats.spectacles = 0;
+      state.stats.impalements = 0;
+      state.stats.severances = 0;
+      state.stats.deathMasks = 0;
+      state.stats.bloodAmphorae = 0;
+      state.stats.sweatVials = 0;
+      renderStats();
+      showToast('Chronicle Cleared', 'Imperial record reset.');
+    }
+
+    /* --------------------------------------------------------------------------
+       12. MUNERA CYCLES (ADVANCE DAY)
+       -------------------------------------------------------------------------- */
+    function advanceGamesCycle() {
+      playSound('salpinx');
+      state.day++;
+
+      if (state.roster.length < 3) state.roster.push(generateSubject());
+      if (state.roster.length < 3) state.roster.push(generateSubject());
+      if (!state.selectedSubjectId && state.roster.length > 0) {
+        state.selectedSubjectId = state.roster[0].id;
+      }
+
+      state.bargainDaysLeft--;
+      if (state.bargainDaysLeft <= 0) {
+        state.bargainDaysLeft = 3;
+        populateOstiaBargains();
+        showToast('Galley Docked', 'Fresh contraband cargo brought into Ostia harbor.');
+      }
+
+      state.praetorHeat = Math.max(0, state.praetorHeat - 4);
+
+      showToast(`Munera Day ${state.day}`, 'Salpinx sounds across Rome. New condemned delivered.');
+      updateUI();
+      renderStats();
+    }
+
+    /* --------------------------------------------------------------------------
+       13. JUPITER / GOD MODE CHEATS
+       -------------------------------------------------------------------------- */
+    function cheatAddSesterces(amt) {
+      state.sesterces += amt;
+      playSound('coin');
+      showToast('⚡ Jupiter Imperium', `Granted +${amt} Sesterces.`);
+      updateUI();
+    }
+
+    function cheatMaxCaesarFavor() {
+      state.caesarFavor = 100;
+      state.crowdEcstasy = 100;
+      state.praetorHeat = 0;
+      playSound('salpinx');
+      showToast('⚡ Jupiter Imperium', 'Caesar Favor and Crowd Ecstasy set to 100%.');
+      updateUI();
+    }
+
+    function cheatAutoCalibrate() {
+      const s = getActiveSubject();
+      if (!s) return;
+
+      const s1 = document.getElementById('slider-param-1');
+      const s2 = document.getElementById('slider-param-2');
+
+      if (state.activeTrap === 'portcullis') {
+        s1.value = s.reflexMs;
+        s2.value = 850;
+      } else if (state.activeTrap === 'lion') {
+        s1.value = 60;
+        s2.value = 750;
+      } else if (state.activeTrap === 'pitfall') {
+        s1.value = s.reflexMs;
+        s2.value = 24;
+      } else {
+        s1.value = 75;
+        s2.value = 55;
+      }
+
+      playSound('winch');
+      updateTrapCalculations();
+      showToast('🎯 Auto-Calibrated', `Hypogeum gears synchronized to ${s.name}'s reflex.`);
+    }
+
+    function cheatUnlockAllWorkshop() {
+      WORKSHOP_MACHINERY.forEach(m => m.owned = true);
+      WORKSHOP_TOOLS.forEach(t => t.owned = true);
+      playSound('clang');
+      renderWorkshop();
+      updateTrapCalculations();
+      showToast('⚡ Jupiter Imperium', 'All subterranean machinery and tools unlocked.');
+      updateUI();
+    }
+
+    function cheatSpawnChampion() {
+      const champ = generateSubject('Krixus the Gaul (Primus Palus)', 3500);
+      champ.weightLbs = 230;
+      champ.reflexMs = 240;
+      champ.hasGoldTeeth = true;
+      champ.sweatTier = 'Legendary';
+      state.roster.unshift(champ);
+      state.selectedSubjectId = champ.id;
+      playSound('salpinx');
+      toggleModal('god-modal');
+      showToast('Champion Spawned', 'Primus Palus Champion enters the arena sand.');
+      updateUI();
+    }
+
+    function cheatRestockBargains() {
+      populateOstiaBargains();
+      playSound('coin');
+      showToast('⚡ Jupiter Imperium', 'Ostia docks bargains catalog replenished.');
+      updateUI();
+    }
+
+    /* --------------------------------------------------------------------------
+       14. UI RENDERING & TAB CONTROLS
+       -------------------------------------------------------------------------- */
+    function updateUI() {
+      document.getElementById('stat-day').textContent = state.day;
+      document.getElementById('stat-sesterces').textContent = `${state.sesterces} 𐆖`;
+
+      document.getElementById('stat-crowd-bar').style.width = state.crowdEcstasy + '%';
+      document.getElementById('stat-crowd-txt').textContent = state.crowdEcstasy + '%';
+
+      document.getElementById('stat-caesar-bar').style.width = state.caesarFavor + '%';
+      document.getElementById('stat-caesar-txt').textContent = state.caesarFavor + '%';
+
+      renderRosterList();
+      renderSubjectBrief();
+      renderSpoliarium();
+      renderAuctionWall();
+      updateCareerStanding();
+    }
+
+    function renderRosterList() {
+      const container = document.getElementById('roster-list');
+      document.getElementById('roster-count').textContent = `${state.roster.length} Subjects`;
+
+      if (state.roster.length === 0) {
+        container.innerHTML = `<p class="text-xs text-[#654e3d] italic p-3">Roster exhausted. Advance the Munera cycle for fresh condemned.</p>`;
+        return;
+      }
+
+      container.innerHTML = state.roster.map(s => {
+        const isSel = s.id === state.selectedSubjectId;
+        return `
+          <div onclick="selectSubject('${s.id}')" class="p-2.5 rounded border cursor-pointer transition ${isSel ? 'border-[#d4af37] bg-[#27151f]' : 'border-[#2b1b13] roman-inset'}">
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="font-roman font-bold ${isSel ? 'text-amber-300' : 'text-amber-100'}">${s.name}</span>
+              <span class="text-yellow-300 font-bold">${s.purse} 𐆖</span>
+            </div>
+            <p class="text-[11px] text-[#8e7a69]">${s.role} • ${s.weightLbs} lbs</p>
+            <p class="text-[10px] text-[#654e3d] truncate italic mt-1">${s.crime}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectSubject(id) {
+      state.selectedSubjectId = id;
+      playSound('winch');
+      renderRosterList();
+      renderSubjectBrief();
+      updateTrapCalculations();
+      drawColosseumCanvas('idle');
+    }
+
+    function renderSubjectBrief() {
+      const panel = document.getElementById('active-subject-brief');
+      const s = getActiveSubject();
+      if (!s) {
+        panel.innerHTML = `<p class="text-xs text-[#654e3d] italic">No active subject on the roster.</p>`;
+        return;
+      }
+
+      panel.innerHTML = `
+        <div class="flex flex-wrap justify-between items-start gap-2 mb-1.5">
+          <div>
+            <div class="flex items-center gap-1.5">
+              <h3 class="font-roman font-bold text-sm sm:text-base text-amber-200">${s.name}</h3>
+              <span class="text-[9px] bg-[#3a1024] text-rose-300 px-1 rounded border border-[#6b1c3e]">${s.id}</span>
+            </div>
+            <p class="text-[11px] text-[#8e7a69]">${s.role}</p>
+          </div>
+          <div class="text-right">
+            <span class="text-[11px] text-[#8e7a69]">Imperial Purse:</span>
+            <p class="text-xs sm:text-sm font-bold text-yellow-300">${s.purse} Sesterces (𐆖)</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1.5 border-t border-[#2b1b13] text-[11px]">
+          <div>
+            <span class="text-[#7b6756] block text-[9px]">Reflex Latency:</span>
+            <span class="text-amber-300 font-bold">${s.reflexMs} ms</span>
+          </div>
+          <div>
+            <span class="text-[#7b6756] block text-[9px]">Body Mass:</span>
+            <span class="text-zinc-300">${s.weightLbs} lbs</span>
+          </div>
+          <div>
+            <span class="text-[#7b6756] block text-[9px]">Sweat Grade:</span>
+            <span class="text-amber-200 font-bold">${s.sweatTier}</span>
+          </div>
+          <div>
+            <span class="text-[#7b6756] block text-[9px]">Dental Gold:</span>
+            <span class="${s.hasGoldTeeth ? 'text-yellow-400 font-bold' : 'text-zinc-500'}">${s.hasGoldTeeth ? 'Etruscan Bridge' : 'None'}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function switchTab(key) {
+      playSound('winch');
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-b-0', 'border-[#d4af37]', 'text-amber-300', 'font-bold');
+        btn.classList.add('border-b', 'border-[#35251c]', 'text-[#8e7a69]');
+      });
+
+      const v = document.getElementById('view-' + key);
+      const b = document.getElementById('tab-' + key);
+      if (v) v.classList.remove('hidden');
+      if (b) {
+        b.classList.add('border-b-0', 'border-[#d4af37]', 'text-amber-300', 'font-bold');
+        b.classList.remove('border-b', 'border-[#35251c]', 'text-[#8e7a69]');
+      }
+
+      if (key === 'arena') drawColosseumCanvas('idle');
+      if (key === 'spoliarium') renderSpoliarium();
+      if (key === 'auction') renderAuctionWall();
+      if (key === 'bargains') renderBargains();
+      if (key === 'workshop') renderWorkshop();
+      if (key === 'stats') renderStats();
+    }
+
+    function toggleModal(id) {
+      playSound('winch');
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden');
+    }
+
+    let toastTimer = null;
+    function showToast(title, msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-title').textContent = title;
+      document.getElementById('toast-msg').textContent = msg;
+
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+      }, 3000);
+    }
+
+    window.onload = function() {
+      initGame();
+      window.addEventListener('resize', () => drawColosseumCanvas('idle'));
+    };
+  </script>
+</body>
+</html>
